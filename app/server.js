@@ -14,6 +14,7 @@ app.ws("/ws/", function (ws, req) {
     });
     ws.on("message", function (msg) {
         chatHistory.push(msg);
+        console.log(getWss().clients.size);
         getWss().clients.forEach(function (client) {
             client.send(msg);
         });
