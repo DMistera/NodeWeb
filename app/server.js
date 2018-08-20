@@ -6,7 +6,7 @@ var bodyparser = require("body-parser");
 var websocket = require("ws");
 var app = express();
 var server = http.createServer(app);
-app.use(express.static("bin"));
+app.use(express.static("app"));
 app.use(bodyparser.text());
 var chatHistory = [];
 var wss = new websocket.Server({ server: server });
@@ -22,7 +22,7 @@ wss.on("connection", function (ws) {
     });
 });
 app.get('/', function (req, res) {
-    res.sendfile("bin/index.html");
+    res.sendfile("app/index.html");
 });
 server.listen(8080, function () {
     console.log('App is listening!');

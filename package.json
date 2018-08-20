@@ -2,7 +2,7 @@
   "name": "node-web",
   "version": "1.0.0",
   "description": "owo",
-  "main": "bin/server.js",
+  "main": "app/server.js",
   "dependencies": {
     "ejs": "^2.6.1",
     "express": "^4.16.3",
@@ -16,7 +16,7 @@
     "@types/ws": "^6.0.0"
   },
   "scripts": {
-    "test": "test"
+    "start": "app/server.js"
   },
   "repository": {
     "type": "git",
