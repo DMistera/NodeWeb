@@ -1,6 +1,10 @@
 
 var url = ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + "/ws/";
 var socket = new WebSocket(url);
+socket.onclose = () => {
+    console.log("Socket reopened");
+    socket = new WebSocket(url);
+}
 var textfield = document.getElementById("textbox") as HTMLElement;
 
 socket.onopen = (e) => {
