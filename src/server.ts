@@ -7,15 +7,19 @@ app.use(express.static("app"));
 var chatHistory : string[] = [];
 
 app.ws("/ws/", (ws, req) => {
-    chatHistory.forEach((msg) => {
-        ws.send(msg);
-    })
     ws.on("message", (msg : string) => {
-        chatHistory.push(msg);
-        console.log(getWss().clients.size);
-        getWss().clients.forEach((client) => {
-            client.send(msg);
-        })
+        if(msg == "history-request") {
+            chatHistory.forEach((msg) => {
+                ws.send(msg);
+            });
+        }
+        else {
+            chatHistory.push(msg);
+            console.log(getWss().clients.size);
+            getWss().clients.forEach((client) => {
+                client.send(msg);
+            })
+        }
     })
 })
 

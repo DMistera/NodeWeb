@@ -2,6 +2,7 @@
 var url = ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + "/ws/";
 var socket : WebSocket;
 var textfield = document.getElementById("textbox") as HTMLElement;
+var historyLoaded = false;
 
 function setSocket() {
     socket = new WebSocket(url);
@@ -10,6 +11,10 @@ function setSocket() {
         setSocket();
     }
     socket.onopen = (e) => {
+        if(!historyLoaded) {
+            socket.send("history-request");
+            historyLoaded = true;
+        }
         socket.onmessage = (messageEvent) => {
             var line = document.createElement("p");
             line.innerHTML = messageEvent.data;

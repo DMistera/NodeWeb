@@ -9,15 +9,19 @@ var _a = express_ws_1.default(express()), app = _a.app, getWss = _a.getWss, appl
 app.use(express.static("app"));
 var chatHistory = [];
 app.ws("/ws/", function (ws, req) {
-    chatHistory.forEach(function (msg) {
-        ws.send(msg);
-    });
     ws.on("message", function (msg) {
-        chatHistory.push(msg);
-        console.log(getWss().clients.size);
-        getWss().clients.forEach(function (client) {
-            client.send(msg);
-        });
+        if (msg == "history-request") {
+            chatHistory.forEach(function (msg) {
+                ws.send(msg);
+            });
+        }
+        else {
+            chatHistory.push(msg);
+            console.log(getWss().clients.size);
+            getWss().clients.forEach(function (client) {
+                client.send(msg);
+            });
+        }
     });
 });
 app.get('/', function (req, res) {
