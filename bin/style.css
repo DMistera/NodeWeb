@@ -1,0 +1,17 @@
+#textbox {
+    border-width: 3px;
+    border-style: dotted;
+    width: 50%;
+}
+
+#textbox p {
+    font-size: 20px;
+    margin: auto;
+    margin-left: 20px;
+}
+
+#container {
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
