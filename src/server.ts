@@ -1,25 +1,18 @@
 import express = require('express');
-import http = require('http');
-import bodyparser = require('body-parser');
-import websocket = require('ws');
-
-var app = express();
-var server = http.createServer(app);
+import expressWs from 'express-ws';
+const { app, getWss, applyTo } = expressWs(express());
 
 app.use(express.static("app"));
-app.use(bodyparser.text());
 
 var chatHistory : string[] = [];
 
-var wss = new websocket.Server({server});
-
-wss.on("connection", (ws) => {
+app.ws("/ws/", (ws, req) => {
     chatHistory.forEach((msg) => {
         ws.send(msg);
     })
     ws.on("message", (msg : string) => {
         chatHistory.push(msg);
-        wss.clients.forEach((client) => {
+        getWss().clients.forEach((client) => {
             client.send(msg);
         })
     })
@@ -29,6 +22,6 @@ app.get('/',  (req, res) => {
     res.sendfile("app/index.html");
 })
 
-server.listen(8080, () => {
+app.listen(8000, () => {
     console.log('App is listening!');
 })

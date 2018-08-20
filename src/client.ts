@@ -1,5 +1,5 @@
 
-var socket = new WebSocket("ws://localhost:8080");
+var socket = new WebSocket("ws://localhost:8000/ws/");
 var textfield = document.getElementById("textbox") as HTMLElement;
 
 socket.onopen = (e) => {

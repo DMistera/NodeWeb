@@ -1,5 +1,5 @@
 "use strict";
-var socket = new WebSocket("ws://localhost:8080");
+var socket = new WebSocket("ws://localhost:8000/ws/");
 var textfield = document.getElementById("textbox");
 socket.onopen = function (e) {
     socket.onmessage = function (messageEvent) {

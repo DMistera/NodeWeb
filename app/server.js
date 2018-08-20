@@ -1,22 +1,20 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
-var http = require("http");
-var bodyparser = require("body-parser");
-var websocket = require("ws");
-var app = express();
-var server = http.createServer(app);
+var express_ws_1 = __importDefault(require("express-ws"));
+var _a = express_ws_1.default(express()), app = _a.app, getWss = _a.getWss, applyTo = _a.applyTo;
 app.use(express.static("app"));
-app.use(bodyparser.text());
 var chatHistory = [];
-var wss = new websocket.Server({ server: server });
-wss.on("connection", function (ws) {
+app.ws("/ws/", function (ws, req) {
     chatHistory.forEach(function (msg) {
         ws.send(msg);
     });
     ws.on("message", function (msg) {
         chatHistory.push(msg);
-        wss.clients.forEach(function (client) {
+        getWss().clients.forEach(function (client) {
             client.send(msg);
         });
     });
@@ -24,6 +22,6 @@ wss.on("connection", function (ws) {
 app.get('/', function (req, res) {
     res.sendfile("app/index.html");
 });
-server.listen(8080, function () {
+app.listen(8000, function () {
     console.log('App is listening!');
 });
